@@ -262,10 +262,17 @@ sudo mount /dev/$partition /media/$USER/$label
 cp -vr /media/$USER/$label/Thunderbird_backup ~/.thunderbird #przenosi cały folder, a nie pliki! dodaj _backup/* ~/.thunderbird
     
 # office
+## dropbox
 sudo apt install dropbox python-gpgme -y
+## mega
+cd ~/Downloads
+wget https://mega.nz/linux/MEGAsync/xUbuntu_16.04/amd64/megasync-xUbuntu_16.04_amd64.deb
+sudo gdebi megasync*
+
 
 ## cryptomator
 wget https://bintray.com/cryptomator/cryptomator-deb/download_file?file_path=cryptomator-1.3.1-amd64.deb
+#installation from repo not working!!! v
 #sudo add-apt-repository ppa:sebastian-stenzel/cryptomator -y
 #sudo apt-get update -y
 #sudo apt-get install cryptomator -y
