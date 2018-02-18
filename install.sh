@@ -8,7 +8,9 @@ install_all() {
     cd ~/.menthol
     # Check if file exists in location and ask for overwrite v
     cp ~/.menthol/resources/desktop/Menthol.desktop ~/.local/share/applications
+    # Check if file exists in location and ask for overwrite v
+    cp ~/.menthol/resources/menthol.sh /usr/bin/menthol.sh
 }
-mkdir ~/.menthol
+
 # if yeas than:
 # ask what to do
