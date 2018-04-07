@@ -26,6 +26,7 @@ if [ ! -e ~/.menthol/menthol.log ]; then
     
     #check internet connection
     if ping -q -c 1 -W 1 8.8.8.8 >/dev/null; then
+        first_run_log
         echo -e "\e[0;92mComputer is connected to the internet! We are ready to procede.\e[0m"
         # I BASIC SYTEM SETTINGS
         echo ""
@@ -40,14 +41,23 @@ if [ ! -e ~/.menthol/menthol.log ]; then
         echo -e "\e[0;36m    2. Updating installed packages\e[0m"
         echo -e "\e[0;36m    3. Update manager settings\e[0m"
         echo -e "\e[0;36m    4. Driver manager settings\e[0m"
+        # Check if multimedia support had been installed during system installation and determinate next step
+        PACKAGE_NAME=mint-meta-codecs
+        package_existence_control
+        if ["$PACKAGE_EXISTENCE" = false] ; then
+            echo -e "\e[0;36m    5. Multimedia support\e[0m"
+        fi    
         echo -e ""
         read -n1 -r -p "Press any key to continue..." key
         
-        first_run_log
         
         # Recomended packages installation
         enable_recommended_packages_installation
         update_packages
+        update_manager_settings
+        driver_manager_settings
+        #TODO install only if it wasn't installed previously
+        #multimedia_support_install
         
     else
         echo -e "\e[0;31;7mWe have problem with internet connection. Please reconnect and run script again.\e[0m"

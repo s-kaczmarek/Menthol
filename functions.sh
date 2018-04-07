@@ -4,17 +4,18 @@
 
 TIME=`date '+%d/%m/%Y %H:%M:%S'`
 MESSAGE=""  # override this variable each time you want to add log entry  
+TO_INSTALL_FLAG = false 
+
 
 # FUNCTIONS
 
-### REMEMBER TO DELETE ALL #TEST
+### REMEMBER TO DELETE ALL #TEST (this comment turns off functions in order not to mess with computer)
 
 # Recommended packages installation
 
 first_run_log() {
 
     touch ~/.menthol/log/menthol.log
-    #time=`date '+%d/%m/%Y %H:%M:%S'`
     echo "$TIME - FIRST RUN" >> ~/.menthol/log/menthol.log
 
 }
@@ -27,6 +28,29 @@ log_entry() {
 
 control_file() {    #try to pass file nam as argument of function
     touch ~/.menthol/log/control_files/"$FILE_NAME"
+}
+
+
+package_existence_control() {
+
+    # Remember to determinate variable "PACKAGE_NAME"
+    # TODO check solution with passing package name as argument not variable!
+    PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE_NAME |grep "install ok installed")
+    if [ "" == "$PKG_OK" ]; then
+        MESSAGE="Package $PACKAGE_NAME does not exists!"
+        echo -e "\e[0;31m$MESSAGE\e[0m"
+        log_entry
+        TO_INSTALL_FLAG=true
+        PACKAGE_EXISTENCE=false
+        #echo "No somelib. Setting up somelib."
+        #sudo apt-get --force-yes --yes install $PACKAGE_NAME
+    else
+        MESSAGE="Package $PACKAGE_NAME exists!"
+        #echo -e "\e[0;92m$MESSAGE\e[0m"
+        log_entry
+        PACKAGE_EXISTENCE=true
+    fi
+
 }
 
 enable_recommended_packages_installation() {
@@ -94,6 +118,10 @@ update_manager_settings() {
 
 }
 
+default_manager_settings() {
+    TODO
+}
+
 # Drivers
 
 driver_manager_settings() {
@@ -104,3 +132,36 @@ driver_manager_settings() {
 
 }
 
+default_driver_manager_settings() {
+    TODO
+}
+
+multimedia_support_install() {
+
+    PACKAGE_NAME=mint-meta-codecs
+    if [ "$TO_INSTALL_FLAG" = true ] ; then
+        MESSAGE="Installing multimedia support - $PACKAGE_NAME"
+        echo -e "\e[0;92m$MESSAGE\e[0m"
+        log_entry
+        sudo apt-get --force-yes --yes install $PACKAGE_NAME
+        package_existence_control
+    fi
+
+}
+
+jetbrains_toolbox_install() {
+    PACKAGE_NAME=jetbrains-toolbox
+    if [ "$TO_INSTALL_FLAG" = true ] ; then
+        MESSAGE="Installing $PACKAGE_NAME"
+        echo -e "\e[0;92m$MESSAGE\e[0m"
+        log_entry
+        #TODO 
+        #wget http://path/to/package/store(maybe dropbox) (zapisz w ~/Downloads)
+        sudo cp -v ~/Downloads/jetbrains-toolbox-*.tar.gz /opt
+        sudo tar -xzf /opt/jetbrains-toolbox-*.tar.gz
+        sudo rm -v /opt/jetbrains-toolbox-*.tar.gz
+        package_existence_control #TODO zrób lokalną metodę, to nie jest instalowane przez manager pakietów
+        nemo /opt/jetbrains-toolbox* #odpalenie nemo, żeby sobie odpalić ten dziwny plik ręcznie
+        #TODO instrukcja o uruchomieniu toolboxa i instalacji ręcznej idea i innych, pausa dapóki klient nie ogarnie sobie tematu przez toolboxa
+    fi
+}
