@@ -44,7 +44,7 @@ if [ ! -e ~/.menthol/menthol.log ]; then
         # Check if multimedia support had been installed during system installation and determinate next step
         PACKAGE_NAME=mint-meta-codecs
         package_existence_control
-        if ["$PACKAGE_EXISTENCE" = false] ; then
+        if ["$PACKAGE_EXISTENCE" == false] ; then
             echo -e "\e[0;36m    5. Multimedia support\e[0m"
         fi    
         echo -e ""

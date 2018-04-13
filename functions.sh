@@ -9,9 +9,10 @@ TO_INSTALL_FLAG = false
 
 # FUNCTIONS
 
-### REMEMBER TO DELETE ALL #TEST (this comment turns off functions in order not to mess with computer)
+## REMEMBER TO DELETE ALL #TEST (this comment turns off functions in order not to mess with computer during tests)
 
-# Recommended packages installation
+## GLOBAL FUNCTIONS
+
 
 first_run_log() {
 
@@ -26,7 +27,9 @@ log_entry() {
 
 }
 
-control_file() {    #try to pass file nam as argument of function
+control_file() {    #try to pass file name as argument of function
+    # Control files will be used to check if certain operation has been performed - they will be created after some operations has been performed.
+    # TODO consider using log entries to do the same things.
     touch ~/.menthol/log/control_files/"$FILE_NAME"
 }
 
@@ -34,24 +37,50 @@ control_file() {    #try to pass file nam as argument of function
 package_existence_control() {
 
     # Remember to determinate variable "PACKAGE_NAME"
+    # Pass $PACKAGE_NAME as $1 argument example: package_existence_control $PACKAGE_NAME
     # TODO check solution with passing package name as argument not variable!
-    PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $PACKAGE_NAME |grep "install ok installed")
+    # PKG_OK variable will get return value from dpkg-query "install ok installed" if package from variable PACKAGE_NAME exists
+    
+    PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $1 |grep "install ok installed")
     if [ "" == "$PKG_OK" ]; then
-        MESSAGE="Package $PACKAGE_NAME does not exists!"
+        MESSAGE="Package $1 does not exists!"
         echo -e "\e[0;31m$MESSAGE\e[0m"
-        log_entry
+        #log_entry TODO not sure if log entry should be performed by this function
         TO_INSTALL_FLAG=true
         PACKAGE_EXISTENCE=false
-        #echo "No somelib. Setting up somelib."
-        #sudo apt-get --force-yes --yes install $PACKAGE_NAME
     else
-        MESSAGE="Package $PACKAGE_NAME exists!"
-        #echo -e "\e[0;92m$MESSAGE\e[0m"
-        log_entry
+        MESSAGE="Package $1 exists!"
+        echo -e "\e[0;92m$MESSAGE\e[0m"
+        #log_entry TODO not sure if log entry should be performed by this function
         PACKAGE_EXISTENCE=true
     fi
 
 }
+
+package_installation() {
+
+    # use this function to install packages from repository
+    # pass $PACKAGE NAME as $1 argument example: package_installation $PACKAGE_NAME
+
+    # First check if package is realy missing:
+
+    package_existence_control $PACKAGE_NAME
+
+    # package_existence_control will give you value of $PACKAGE_EXISTENCE and $TO_INSTALL_FLAG which will determinate weather install package or not
+ 
+    if [ $PACKAGE_EXISTENCE  == false ] && [ $TO_INSTALL_FLAG == true ]; then  
+        sudo apt-get --force-yes --yes install $1
+        # TODO create method to check if package was installed correctly 
+        # TODO if [package was installed]
+        # TODO message and log entry
+
+    else
+        echo -e "ERROR"
+    fi        
+
+}
+
+## Recommended packages installation
 
 enable_recommended_packages_installation() {
 
@@ -87,7 +116,7 @@ disable_recommended_packages_installation() {
 
 }
 
-# Update packages list & packages
+## Update packages list & packages
 
 update_packages() {
 
