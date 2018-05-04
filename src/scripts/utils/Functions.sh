@@ -1,10 +1,17 @@
 #!/bin/bash
 
+source ./Log.sh
+
 # GLOBAL VARIABLES
 
 TIME=`date '+%d/%m/%Y %H:%M:%S'`
+# PACKAGE_NAME variable is needed for creating log entries
 PACKAGE_NAME=""
-MESSAGE=""  # override this variable each time you want to add log entry  
+# override this variable each time you want to add log entry 
+MESSAGE=""
+# override this variable each time you want to add log entry 
+MESSAGE_WARNING=""
+# flag for marking to install
 TO_INSTALL_FLAG = false 
 
 
@@ -15,31 +22,14 @@ TO_INSTALL_FLAG = false
 ## GLOBAL FUNCTIONS
 
 
-first_run_log() {
-
-    touch ~/.menthol/log/menthol.log
-    echo "$TIME - FIRST RUN" >> ~/.menthol/log/menthol.log
-
-}
-
-log_entry() {
-
-    echo "$TIME - $MESSAGE" >> ~/.menthol/log/menthol.log
-
-}
-
-control_file() {    #try to pass file name as argument of function
-    # Control files will be used to check if certain operation has been performed - they will be created after some operations has been performed.
-    # TODO consider using log entries to do the same things.
-    touch ~/.menthol/log/control_files/"$FILE_NAME"
-}
-
 
 package_existence_control() {
 
-    # Remember to determinate variable "PACKAGE_NAME"
-    # Pass $PACKAGE_NAME as $1 argument example: package_existence_control $PACKAGE_NAME
-    # TODO check solution with passing package name as argument not variable!
+    # WARNING! This function will be called by "package_installation" function. Don't use it on it's own!
+    # This function is made to set value of TO_INSTALL_FLAG to true or false depending on the existence of
+    # package that we want to check. Use this variable as a flag to determinate weather install package or not.
+    # Remember to determinate variable "PACKAGE_NAME" for purpose of passing package name to log file
+    # and also to pass its name as $1 argument. Example: package_existence_control $PACKAGE_NAME
     # PKG_OK variable will get return value from dpkg-query "install ok installed" if package from variable PACKAGE_NAME exists
     
     PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $1 |grep "install ok installed")
@@ -72,9 +62,14 @@ package_installation() {
     if [ $PACKAGE_EXISTENCE  == false ] && [ $TO_INSTALL_FLAG == true ]; then  
         sudo apt-get --force-yes --yes install $1
         # TODO create method to check if package was installed correctly 
-        # TODO if [package was installed]
-        # TODO message and log entry
-
+        package_existence_control $PACKAGE_NAME
+        if [ $PACKAGE_EXISTENCE  == true ]; then
+            MESSAGE="$PACKAGE_NAME installed successfully"
+            log_entry
+        else
+            MESSAGE_WARNING="$PACKAGE_NAME not installed"
+            log_entry_warning    
+        fi
     else
         echo -e "ERROR"
     fi        
@@ -148,7 +143,7 @@ update_manager_settings() {
 
 }
 
-default_manager_settings() {
+default_update_manager_settings() {
     TODO
 }
 

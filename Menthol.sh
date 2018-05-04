@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ./functions.sh
+source ./src/Dependencies.sh
 
 clear
 

@@ -14,4 +14,11 @@ node_js_install() {
 
 }
 
-node_js_install
+angular_install() {
+	#TODO if node_js is installed than:
+	sudo npm install -g @angular/cli
+	# if node_js is not installet than:
+	node_js_install
+	sudo npm install -g @angular/cli
+
+}
