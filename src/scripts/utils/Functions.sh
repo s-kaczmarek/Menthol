@@ -7,6 +7,8 @@ source ./Log.sh
 TIME=`date '+%d/%m/%Y %H:%M:%S'`
 # PACKAGE_NAME variable is needed for creating log entries
 PACKAGE_NAME=""
+# override this variable when adding new PPA. It will be also used for making log messages
+PPA_NAME=""
 # override this variable each time you want to add log entry 
 MESSAGE=""
 # override this variable each time you want to add log entry 
