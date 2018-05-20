@@ -3,6 +3,15 @@
 source ../utils/Functions.sh
 source ../utils/Log.sh
 
+# SUBLIME TEXT
+
+sublime-text3_install() {
+
+    PACKAGE_NAME="sublime-text"
+    package_installation $PACKAGE_NAME
+
+}
+
 # NODE JS
 
 node_js_install() {
@@ -22,3 +31,4 @@ angular_install() {
 	sudo npm install -g @angular/cli
 
 }
+
