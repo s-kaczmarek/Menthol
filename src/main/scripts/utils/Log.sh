@@ -1,15 +1,9 @@
 #!/bin/bash
 
+source ../utils/Paths.sh
+
 # Time format for messages and logs
 TIME=`date '+%d/%m/%Y %H:%M:%S'`
-
-# PACKAGE_NAME variable is needed for creating log entries
-PACKAGE_NAME=""
-
-# override this variable each time you want to add log entry 
-MESSAGE=""
-
-
 
 # pass MESSAGE variable as argument of this function, example:
 # echo_message $MESSAGE
@@ -43,20 +37,28 @@ first_run_log() {
 
 log_entry() {
 
-    echo "$TIME - $MESSAGE" >> $MENTHOL_LOG_PATH
+    echo "$TIME - $1" >> $MENTHOL_LOG_PATH
 
 }
 
 log_entry_warning() {
 
-    echo "$TIME - [ERROR] - $MESSAGE_WARNING" | tee $MENTHOL_LOG_PATH $MENTHOL_LOG_WARNINGS_PATH
+    echo "$TIME - [WARNING] - $@" | tee $MENTHOL_LOG_PATH $MENTHOL_LOG_WARNINGS_PATH
 
 }
 
-    #try to pass file name as argument of function
-    # Control files will be used to check if certain operation has been performed - they will be created after some 
-    # operations has been performed.
-    # TODO consider using log entries to do the same things.
+log_entry_error() {
+
+    echo "$TIME - [ERROR] - $@" | tee $MENTHOL_LOG_PATH $MENTHOL_LOG_WARNINGS_PATH
+
+}
+
+
+# TODO:
+# try to pass file name as argument of function
+# Control files will be used to check if certain operation has been performed - they will be created after some 
+# operations has been performed.
+# consider using log entries to do the same things.
 control_file() {    
     touch ~/.menthol/log/control_files/"$FILE_NAME"
 }

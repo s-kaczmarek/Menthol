@@ -56,7 +56,7 @@ if [ ! -e ~/.menthol/menthol.log ]; then
         update_packages
         update_manager_settings
         driver_manager_settings
-        #TODO install only if it wasn't installed previously
+        #TODO: install only if it wasn't installed previously
         #multimedia_support_install
         
     else
