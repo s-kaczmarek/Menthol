@@ -127,6 +127,9 @@ package_installation_from_ppa() {
     package_existence_control $1 # PACKAGE_NAME
 
     if [ $PACKAGE_EXISTENCE  == false ] && [ $TO_INSTALL_FLAG == true ]; then
+        MESSAGE="$1 does not exists, performing installation process"
+        echo_message $MESSAGE
+        log_entry $MESSAGE
         ppa_existence_control $3 # PPA_URL
         if [ $PPA_EXISTENCE == false ] && [ $ADD_PPA_FLAG == true ]; then
             sudo add-apt-repository $PPA_NAME --yes

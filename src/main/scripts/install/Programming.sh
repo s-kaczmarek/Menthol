@@ -93,4 +93,18 @@ shellcheck_install() {
 
 }
 
+# SQLITE BROWSER
+
+sqlitebrowser_install() {
+
+    # https://sqlitebrowser.org/
+    PPA_NAME="ppa:linuxgndu/sqlitebrowser"
+    PPA_URL="http://ppa.launchpad.net/linuxgndu/sqlitebrowser/ubuntu"
+    PACKAGE_NAME="sqlitebrowser"
+    PACKAGE_DESCRIPTION="GUI tool for managing SQLite databases"
+    package_installation_from_ppa $PACKAGE_NAME $PPA_NAME $PPA_URL
+
+}
+
+
 

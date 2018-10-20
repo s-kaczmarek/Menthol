@@ -37,7 +37,7 @@ first_run_log() {
 
 log_entry() {
 
-    echo "$TIME - $1" >> $MENTHOL_LOG_PATH
+    echo "$TIME - $@" >> $MENTHOL_LOG_PATH
 
 }
 

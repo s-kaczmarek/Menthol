@@ -30,11 +30,12 @@ tlp_install() {
     PPA_NAME="ppa:linrunner/tlp"
     PPA_URL="http://ppa.launchpad.net/linrunner/tlp/ubuntu"
     PACKAGE_NAME="tlp"
-    PACKAGE_DESCRIPTION="ShellCheck is a tool that gives warnings and suggestions for bash/sh shell scripts"
+    PACKAGE_DESCRIPTION="TLP is a tool that improves power management on Linux"
     package_installation_from_ppa $PACKAGE_NAME $PPA_NAME $PPA_URL
+
+    #TODO: check if computer is thinkpad. If yes, then install: sudo apt-get install tp-smapi-dkms acpi-call-dkms
 
 }
 
-tlp_install
 
 
