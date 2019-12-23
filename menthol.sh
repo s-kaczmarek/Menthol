@@ -10,10 +10,15 @@ declare -A options=(
         ["SystemTools"]="System Tools|Resources monitoring, file search, networking|./src/agregats/file-managers.sh"
     )
 
-loop="true"
-while [ $loop == "true" ]; do
-    clear
-    header="Menthol"
-    sub_header="Options:"
-    serve_multi_level_menu "$(declare -p options)" "$header" "$sub_header"
-done
+# loop="true"
+# while [ $loop == "true" ]; do
+#     clear
+#     header="Menthol"
+#     sub_header="Options:"
+#     serve_multi_level_menu "$(declare -p options)" "$header" "$sub_header"
+# done
+
+clear
+header="Menthol"
+sub_header="Options:"
+serve_multi_level_menu "$(declare -p options)" "$header" "$sub_header"

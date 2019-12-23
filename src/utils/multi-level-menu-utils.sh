@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# arguments:
+# first argument - variable containing map of data in pattern:
+#   "keyName"="full name|Program description|./path/to/script"
+# second argument - variable containing string with header of menu, like:
+#   "File Managers"
+# third argument - sub header
+#   "Program for file browsing"
 serve_multi_level_menu(){
     eval "declare -A options="${1#*=}
     local header=$2
@@ -48,16 +55,29 @@ serve_multi_level_menu(){
         [[ "$msg" ]] && echo "" && echo "$msg" && msg=""; :
     }
 
-    prompt="Go to submenu (type index again to uncheck, ENTER when done): "
+    prompt="Go to submenu (type index or X to EXIT): "
     while menu && echo "" && read -rp "$prompt" num && [[ "$num" ]]; do
-        [[ "$num" != *[![:digit:]]* ]] &&
-        (( num > 0 && num <= ${#options[@]} )) ||
-        { msg="Invalid option: $num"; continue; }
-        # ((num--)); #msg="${options[num]} was ${choices[num]:+un}checked"
-        # [[ "${choices[num]}" ]] && choices[num]="" || choices[num]="*"
-        read -ra array_of_map_values <<< "${options[${keys[$num]}]}"
-        # echo "go to" "${array_of_map_values[2]}"
-        bash "${array_of_map_values[2]}" &
+        # [[ "$num" != *[![:digit:]]* ]] &&
+        # (( num > 0 && num <= ${#options[@]} )) ||
+        # { msg="Invalid option: $num"; continue; }
+        # # ((num--)); #msg="${options[num]} was ${choices[num]:+un}checked"
+        # # [[ "${choices[num]}" ]] && choices[num]="" || choices[num]="*"
+        # read -ra array_of_map_values <<< "${options[${keys[$num]}]}"
+        # # echo "go to" "${array_of_map_values[2]}"
+        # bash "${array_of_map_values[2]}"
+        # break;
+
+        if [[ "$num" != *[![:digit:]]* ]] && (( num > 0 && num <= ${#options[@]} )); then
+                read -ra array_of_map_values <<< "${options[${keys[$num]}]}"
+                bash "${array_of_map_values[2]}"
+                break;
+        elif [ "$num" == "x" ] || [ "$num" == "X" ]; then
+                break;
+        else
+                msg="Invalid option: $num"
+                continue;
+        fi
+
     done
 
     # code below should be transformed into action of installing or sourcing for later installation
