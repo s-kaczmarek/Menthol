@@ -1,0 +1,17 @@
+Todo List:
+
+[] - automatyczna instalacja appletów cinnamon
+[] - automatyczna konfiguracja usera git'a - dodaj tę funcjonalnośc do skryptu instalującego git'a
+[] - automatyczne dodawanie skrótów klawiszowych:
+        https://wiki.archlinux.org/index.php/Cinnamon#Resize_windows_by_mouse
+        https://wiki.ubuntu.com/Keybindings
+        https://askubuntu.com/questions/597395/how-to-set-custom-keyboard-shortcuts-from-terminal
+
+This is simple repository of scripts that will install programs on ubuntu based distros. There is no abstract logic. Each stript contains its own logic. Such strategy is used for simplicity and reliability of usage. Do not think about how other users would use this script!
+
+All scripts are located in src folder. All installation files are located in resources folder.
+
+You can run all of the scriptas by run-all-scripts.sh script.
+
+
+- Nowy plan jest taki, żeby do tego skryptu dodać logikę z projektu menthol i na koniec cały ten skrypt przenieść do repo mentola jako jego nowa wersja.

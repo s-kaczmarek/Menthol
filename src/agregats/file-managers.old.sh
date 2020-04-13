@@ -5,6 +5,7 @@
 declare -A options=(
         ["Ranger"]="Ranger|Cli file manager|./src/common/ranger-install.sh"
         ["MidnightCommander"]="Midnight Commander|Two pane file manager|./src/common/midnight-commander-install.sh"
+        ["PCManFM"]="PCMan File Manager|Standard file manager for LXDE|./src/common/midnight-commander-install.sh"
     )
 # this array contains keys of map
 keys=(${!options[@]})

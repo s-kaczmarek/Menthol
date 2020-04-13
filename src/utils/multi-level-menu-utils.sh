@@ -72,22 +72,13 @@ serve_multi_level_menu(){
                 bash "${array_of_map_values[2]}"
                 break;
         elif [ "$num" == "x" ] || [ "$num" == "X" ]; then
-                break;
+                # break;
+                exit;
         else
                 msg="Invalid option: $num"
                 continue;
         fi
-
     done
-
-    # code below should be transformed into action of installing or sourcing for later installation
-    # echo -e "\nSelected programs:"
-    # for i in ${!choices[@]}; do
-    #     if [ ${choices[i]} == * ]; then
-    #         read -ra array_of_map_values <<< "${options[${keys[i]}]}"
-    #         echo "${array_of_map_values[1]}"
-    #     fi
-    # done
 
     IFS=' '
 }

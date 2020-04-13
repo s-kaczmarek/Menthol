@@ -24,3 +24,4 @@ fi
 
 # Install python packages
 pip install pyfiglet
+pip install requests
